@@ -1,14 +1,14 @@
-import { ICliCommand } from './cli-command.interface';
-import { Offer } from '../../types/offer.type';
+import { ICliCommand } from './cli-command.interface.js';
+import { Offer } from '../../types/offer.type.js';
 import fs from 'fs/promises'
 import { resolve } from 'path'
-import { City } from '../../types/city.enum';
+import { City } from '../../types/city.enum.js';
 import { EOL } from 'os';
-import { HousingType } from '../../types/housing-type.enum';
-import { Facility } from '../../types/facility-type.enum';
-import { User } from '../../types/user.type';
-import { UserType } from '../../types/user-type.enum';
-import { Coordinates } from '../../types/coordinates.type';
+import { HousingType } from '../../types/housing-type.enum.js';
+import { Facility } from '../../types/facility-type.enum.js';
+import { User } from '../../types/user.type.js';
+import { UserType } from '../../types/user-type.enum.js';
+import { Coordinates } from '../../types/coordinates.type.js';
 
 export class ImportCommand implements ICliCommand{
   readonly name = '--import';
@@ -24,9 +24,9 @@ export class ImportCommand implements ICliCommand{
     }
 
     const path = params[0];
-    const lines = (await fs.readFile(resolve(path), {encoding: 'utf-8'})).split(EOL);
-    for (const line in lines) {
-      const values = line.split(/\t/g);
+    const lines = (await fs.readFile(resolve(path), {encoding: 'utf-8'})).split(EOL).filter( line => line.trim() != '');
+    for (const line of lines) {
+      const values = line.split('\t');
       const offer: Offer = {
         title: values[0],
         description: values[1],
@@ -46,7 +46,7 @@ export class ImportCommand implements ICliCommand{
         coordinates: await this.ParseCoordinates(values[15]),
         commentsCount: await this.GetCommentsCount()
       };
-      console.log(JSON.stringify(offer))
+      console.log(JSON.stringify(offer, null, 2))
     }
 
   }

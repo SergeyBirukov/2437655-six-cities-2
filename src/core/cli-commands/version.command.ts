@@ -1,5 +1,5 @@
-import { ICliCommand } from './cli-command.interface';
-import path from 'path';
+import { ICliCommand } from './cli-command.interface.js';
+import path from 'node:path';
 import { readFileSync } from 'fs';
 
 export class VersionCommand implements ICliCommand {

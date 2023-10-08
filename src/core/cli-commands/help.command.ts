@@ -1,4 +1,4 @@
-import { ICliCommand } from './cli-command.interface';
+import { ICliCommand } from './cli-command.interface.js';
 
 export class HelpCommand implements ICliCommand {
   readonly name = '--help';
