@@ -43,26 +43,22 @@ export class ImportCommand implements ICliCommand{
         guestsCount: parseInt(values[11]),
         price: parseFloat(values[12]),
         facilities: values[13].split(';').map(value => value as Facility),
-        author: await this.FindUserByName(values[14]),
-        coordinates: await this.ParseCoordinates(values[15]),
-        commentsCount: await this.GetCommentsCount()
+        author: await this.ParseUser(values[14]),
+        commentsCount: parseInt(values[15]),
+        coordinates: await this.ParseCoordinates(values[16])
       };
       console.log(JSON.stringify(offer, null, 2))
     }
 
   }
 
-  private async FindUserByName(userName: string): Promise<User>{
-    return {name: userName, type: UserType.Pro, avatar: 'avatar.jpg', email: 'user@mail.com', password: 'pwd'};
+  private async ParseUser(rawValue: string): Promise<User>{
+    const values = rawValue.split(';');
+    return {name: values[0], email: values[1] as User['email'], avatar: values[2] as User['avatar'], password: values[3], type: values[4] as UserType};
   }
 
   private async ParseCoordinates(rawValue: string): Promise<Coordinates>{
     const [latitude, longitude] = rawValue.split(';').map(v => parseFloat(v));
     return {latitude: latitude, longitude: longitude};
   }
-
-  private async GetCommentsCount(): Promise<number>{
-    return 0;
-  }
-
 }
