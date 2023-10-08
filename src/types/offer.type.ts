@@ -10,7 +10,14 @@ export type Offer = {
   postDate: Date;
   city: City;
   preview: string;
-  photos: string[];
+  photos: [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string
+  ];
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;
