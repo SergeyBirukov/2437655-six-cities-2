@@ -17,9 +17,10 @@ export class ImportCommand implements ICliCommand{
     if(params.length == 0){
       console.log(`
       Команда import импортирует данные из tsv-файла.
-      Пример: cli.js --import <path>
+      Пример: ts-node ./cli.js --import <path>
       Параметры:
-        path: путь до tsv-файла`);
+        path: путь до tsv-файла
+      `);
       return;
     }
 
