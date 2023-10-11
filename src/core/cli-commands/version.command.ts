@@ -1,6 +1,6 @@
 import { ICliCommand } from './cli-command.interface.js';
 import path from 'node:path';
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
 
 export class VersionCommand implements ICliCommand {
   readonly name = '--version';
@@ -8,7 +8,7 @@ export class VersionCommand implements ICliCommand {
 
   public async execute(): Promise<void> {
     if(this.version){
-      console.log(this.version)
+      console.log(this.version);
       return;
     }
     const contentPageJSON = readFileSync(path.resolve('./package.json'), 'utf-8');

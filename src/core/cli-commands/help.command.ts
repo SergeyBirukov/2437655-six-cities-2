@@ -13,7 +13,7 @@ export class HelpCommand implements ICliCommand {
       --help:           #выводит этот текст
       --version:        #выводит информацию о версии приложения
       --import <path>   #импортирует данные из *.tsv файла и выводит результат в консоль
-`)
+`);
   }
 
 }
