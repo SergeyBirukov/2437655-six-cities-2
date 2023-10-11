@@ -7,7 +7,7 @@ export class HelpCommand implements ICliCommand {
     console.log(`
     Программа для подготовки данных для REST API сервера.
 
-    Пример: ts-node ./main.cli.js --<command> [--arguments]
+    Пример: ts-node ./src/main.cli.ts --<command> [--arguments]
 
     Команды:
       --help:           #выводит этот текст
