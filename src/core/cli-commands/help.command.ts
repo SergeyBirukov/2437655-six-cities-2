@@ -5,7 +5,7 @@ export class HelpCommand implements ICliCommand {
   readonly name = '--help';
 
   public async execute(): Promise<void> {
-    console.log(chalk.green('Программа для подготовки данных для REST API сервера.'))
+    console.log(chalk.green('Программа для подготовки данных для REST API сервера.'));
     console.log(chalk.green('Пример: ')
       + chalk.blue('ts-node ./src/main.cli.ts ')
       + chalk.yellow('--<command> [--arguments]'));
@@ -20,6 +20,6 @@ export class HelpCommand implements ICliCommand {
       + chalk.bgBlackBright.whiteBright('\t\t#выводит информацию о версии приложения'));
     console.log(chalk.green('\t--import ')
       + chalk.yellow('<path>')
-      + chalk.bgBlackBright.whiteBright('\t\t#импортирует данные из *.tsv файла и выводит результат в консоль'))
+      + chalk.bgBlackBright.whiteBright('\t\t#импортирует данные из *.tsv файла и выводит результат в консоль'));
   }
 }
