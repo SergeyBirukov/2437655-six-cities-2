@@ -21,7 +21,7 @@ export type Offer = {
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;
-  type: HousingType;
+  housingType: HousingType;
   roomsCount: number;
   guestsCount: number;
   price: number;
