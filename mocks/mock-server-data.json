@@ -1,0 +1,64 @@
+{
+    "titles": [
+        "Дом",
+        "Квартира",
+        "Деревенский дом",
+        "Отель",
+        "Хостел"
+    ],
+    "descriptions": [
+        "C садом и современными удобствами",
+        "C панорамным видом на городской скайлайн",
+        "C камином и закрытой территорией",
+        "Имеется спа-центром",
+        "В центре города с современным дизайном интерьера"
+    ],
+    "previewImages": [
+        "previewImage1.jpg",
+        "previewImage2.jpg",
+        "previewImage3.jpg",
+        "previewImage4.jpg",
+        "previewImage5.jpg"
+    ],
+    "propertyImages": [
+        "propertyImage1.jpg",
+        "propertyImage2.jpg",
+        "propertyImage3.jpg",
+        "propertyImage4.jpg",
+        "propertyImage5.jpg"
+    ],
+    "coordinates": {
+        "latitude": [1.4444, 2.4444, 3.6666, 4.5555, 5.6465],
+        "longitude": [8.4444, 4.4444, 6.6666, 23.3123, 1.1111]
+    },
+    "users" : {
+      "names": [
+        "John",
+        "Mike",
+        "Bob",
+        "Alice",
+        "Ann"
+      ],
+      "avatars": [
+        "a1.jpg",
+        "a2.jpg",
+        "a3.jpg",
+        "a4.jpg",
+        "a5.jpg"
+      ],
+      "emails": [
+        "email1@mail.ru",
+        "email2@mail.ru",
+        "email3@mail.ru",
+        "email4@mail.ru",
+        "email5@mail.ru"
+      ],
+      "passwords": [
+        "pwd",
+        "pwd2",
+        "pwd3",
+        "pwd4",
+        "pwd5"
+      ]
+    }
+  }
