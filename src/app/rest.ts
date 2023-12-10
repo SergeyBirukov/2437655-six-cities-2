@@ -1,8 +1,8 @@
-import { ConfigInterface } from '../core/config/config.interface';
-import { LoggerInterface } from '../logger/logger.interface';
-import { RestSchema } from '../core/config/rest.schema';
+import { ConfigInterface } from '../core/config/config.interface.js';
+import { LoggerInterface } from '../logger/logger.interface.js';
+import { RestSchema } from '../core/config/rest.schema.js';
 import { inject, injectable } from 'inversify';
-import { AppComponent } from '../types/app-component.enum';
+import { AppComponent } from '../types/app-component.enum.js';
 
 @injectable()
 export default class RestApplication {
