@@ -9,13 +9,13 @@ import { ConfigInterface } from './core/config/config.interface.js';
 import { RestSchema } from './core/config/rest.schema.js';
 
 async function bootstrap() {
-    const container = new Container();
-    container.bind<RestApplication>(AppComponent.RestApplication).to(RestApplication).inSingletonScope();
-    container.bind<LoggerInterface>(AppComponent.LoggerInterface).to(PinoService).inSingletonScope();
-    container.bind<ConfigInterface<RestSchema>>(AppComponent.ConfigInterface).to(ConfigService).inSingletonScope();
+  const container = new Container();
+  container.bind<RestApplication>(AppComponent.RestApplication).to(RestApplication).inSingletonScope();
+  container.bind<LoggerInterface>(AppComponent.LoggerInterface).to(PinoService).inSingletonScope();
+  container.bind<ConfigInterface<RestSchema>>(AppComponent.ConfigInterface).to(ConfigService).inSingletonScope();
 
-    const application = container.get<RestApplication>(AppComponent.RestApplication);
-    await application.init();
+  const application = container.get<RestApplication>(AppComponent.RestApplication);
+  await application.init();
 }
 
 bootstrap();

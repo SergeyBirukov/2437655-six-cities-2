@@ -6,13 +6,13 @@ import { AppComponent } from '../types/app-component.enum.js';
 
 @injectable()
 export default class RestApplication {
-    constructor(
+  constructor(
       @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface,
       @inject(AppComponent.ConfigInterface) private readonly config: ConfigInterface<RestSchema>
-    ) {}
-  
-    public async init() {
-      this.logger.info('Application initialization…');
-      this.logger.info(`Get value from env $PORT: ${this.config.get('PORT')}`);
-    }
+  ) {}
+
+  public async init() {
+    this.logger.info('Application initialization…');
+    this.logger.info(`Get value from env $PORT: ${this.config.get('PORT')}`);
   }
+}
