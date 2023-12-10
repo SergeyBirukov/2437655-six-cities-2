@@ -9,15 +9,12 @@ import { ConfigInterface } from './core/config/config.interface.js';
 import { RestSchema } from './core/config/rest.schema.js';
 import { DatabaseClientInterface } from './core/database-client/database-client.interface.js';
 import MongoClientService from './core/database-client/mongo-client.service.js';
+import { createRestApplicationContainer } from './rest/rest.contaner.js';
+import { createUserContainer } from './modules/user/user.container.js';
 
 async function bootstrap() {
-  const container = new Container();
-  container.bind<RestApplication>(AppComponent.RestApplication).to(RestApplication).inSingletonScope();
-  container.bind<LoggerInterface>(AppComponent.LoggerInterface).to(PinoService).inSingletonScope();
-  container.bind<ConfigInterface<RestSchema>>(AppComponent.ConfigInterface).to(ConfigService).inSingletonScope();
-  container.bind<DatabaseClientInterface>(AppComponent.DatabaseClientInterface).to(MongoClientService).inSingletonScope();
-
-  const application = container.get<RestApplication>(AppComponent.RestApplication);
+  const appContainer = Container.merge(createRestApplicationContainer(), createUserContainer());
+  const application = appContainer.get<RestApplication>(AppComponent.RestApplication);
   await application.init();
 }
 
