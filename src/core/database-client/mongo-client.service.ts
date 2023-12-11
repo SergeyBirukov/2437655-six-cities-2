@@ -1,20 +1,20 @@
 import { inject, injectable } from 'inversify';
 import mongoose, { Mongoose } from 'mongoose';
 import { setTimeout } from 'timers/promises';
-import { DatabaseClientInterface } from './database-client.interface.js';
+import { DatabaseClient } from './database-client.interface.js';
 import { AppComponent } from '../../types/app-component.enum.js';
-import { LoggerInterface } from '../../logger/logger.interface.js';
+import { Logger } from '../../logger/logger.interface.js';
 
 const RETRY_COUNT = 5;
 const RETRY_TIMEOUT = 1000;
 
 @injectable()
-export default class MongoClientService implements DatabaseClientInterface {
+export default class MongoClientService implements DatabaseClient {
   private isConnected = false;
   private mongooseInstance: Mongoose | null = null;
 
   constructor(
-    @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface
+    @inject(AppComponent.LoggerInterface) private readonly logger: Logger
   ) {}
 
   private async _connectWithRetry(uri: string): Promise<Mongoose> {

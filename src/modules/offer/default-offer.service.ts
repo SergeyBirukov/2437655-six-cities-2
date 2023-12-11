@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { LoggerInterface } from "../../logger/logger.interface";
+import { Logger } from "../../logger/logger.interface";
 import { AppComponent } from "../../types/app-component.enum";
 import { OfferService } from "./offer-service.interface";
 import { OfferEntity } from "./offer.entity";
@@ -9,7 +9,7 @@ import { CreateOfferDto } from "./dto/create-offer.dto";
 @injectable()
 export class DefaultOfferService implements OfferService {
     constructor (
-        @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface,
+        @inject(AppComponent.LoggerInterface) private readonly logger: Logger,
         @inject(AppComponent.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>
     ){}
 
