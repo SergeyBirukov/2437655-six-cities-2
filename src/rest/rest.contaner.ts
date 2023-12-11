@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import { Logger } from '../logger/logger.interface.js';
+import { LoggerInterface } from '../logger/logger.interface.js';
 import PinoService from '../services/pino.service.js';
 import { ConfigInterface } from '../core/config/config.interface.js';
 import { RestSchema } from '../core/config/rest.schema.js';
@@ -12,7 +12,7 @@ import RestApplication from '../app/rest.js';
 export function createRestApplicationContainer() {
   const container = new Container();
   container.bind<RestApplication>(AppComponent.RestApplication).to(RestApplication).inSingletonScope();
-  container.bind<Logger>(AppComponent.LoggerInterface).to(PinoService).inSingletonScope();
+  container.bind<LoggerInterface>(AppComponent.LoggerInterface).to(PinoService).inSingletonScope();
   container.bind<ConfigInterface<RestSchema>>(AppComponent.ConfigInterface).to(ConfigService).inSingletonScope();
   container
     .bind<DatabaseClient>(AppComponent.DatabaseClientInterface)

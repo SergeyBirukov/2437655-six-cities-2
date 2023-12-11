@@ -4,7 +4,7 @@ import { FileReader } from '../../services/file-service.js';
 import { UserService } from '../../modules/user/user-service.interface.js';
 import { OfferService } from '../../modules/offer/offer-service.interface.js';
 import { DatabaseClient } from '../database-client/database-client.interface.js';
-import { Logger } from '../../logger/logger.interface.js';
+import { LoggerInterface } from '../../logger/logger.interface.js';
 import ConsoleService from '../../logger/console.logger.js';
 import { DefaultOfferService } from '../../modules/offer/default-offer.service.js';
 import { OfferModel } from '../../modules/offer/offer.entity.js';
@@ -22,7 +22,7 @@ export class ImportCommand implements ICliCommand {
   private readonly userService: UserService;
   private readonly offerService: OfferService;
   private readonly databaseClient: DatabaseClient;
-  private readonly logger: Logger;
+  private readonly logger: LoggerInterface;
 
   constructor() {
     this.logger = new ConsoleService();

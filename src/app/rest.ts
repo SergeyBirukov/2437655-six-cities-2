@@ -1,5 +1,5 @@
 import { ConfigInterface } from '../core/config/config.interface.js';
-import { Logger } from '../logger/logger.interface.js';
+import { LoggerInterface } from '../logger/logger.interface.js';
 import { RestSchema } from '../core/config/rest.schema.js';
 import { inject, injectable } from 'inversify';
 import { AppComponent } from '../types/app-component.enum.js';
@@ -9,7 +9,7 @@ import { getMongoURI } from '../core/helpers/db.js';
 @injectable()
 export default class RestApplication {
   constructor(
-      @inject(AppComponent.LoggerInterface) private readonly logger: Logger,
+      @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface,
       @inject(AppComponent.ConfigInterface) private readonly config: ConfigInterface<RestSchema>,
       @inject(AppComponent.DatabaseClientInterface) private readonly databaseClient: DatabaseClient
   ) {}

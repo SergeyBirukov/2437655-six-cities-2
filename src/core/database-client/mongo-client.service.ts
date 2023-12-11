@@ -3,7 +3,7 @@ import mongoose, { Mongoose } from 'mongoose';
 import { setTimeout } from 'node:timers/promises';
 import { DatabaseClient } from './database-client.interface.js';
 import { AppComponent } from '../../types/app-component.enum.js';
-import { Logger } from '../../logger/logger.interface.js';
+import { LoggerInterface } from '../../logger/logger.interface.js';
 
 const RETRY_COUNT = 5;
 const RETRY_TIMEOUT = 1000;
@@ -14,7 +14,7 @@ export default class MongoClientService implements DatabaseClient {
   private mongooseInstance: Mongoose | null = null;
 
   constructor(
-    @inject(AppComponent.LoggerInterface) private readonly logger: Logger
+    @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface
   ) {}
 
   private async _connectWithRetry(uri: string): Promise<Mongoose> {

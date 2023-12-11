@@ -4,12 +4,12 @@ import { UserEntity } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { inject, injectable } from 'inversify';
 import { AppComponent } from '../../types/app-component.enum';
-import { Logger } from '../../logger/logger.interface';
+import { LoggerInterface } from '../../logger/logger.interface';
 
 @injectable()
 export class DefaultUserService implements UserService {
   constructor(
-        @inject(AppComponent.LoggerInterface) private readonly logger: Logger,
+        @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface,
         @inject(AppComponent.UserModel) private readonly userModel: types.ModelType<UserEntity>
   ){}
 
