@@ -1,6 +1,6 @@
 import { UserService } from "./user-service.interface";
 import { DocumentType, types } from "@typegoose/typegoose";
-import { UserEntity, UserModel } from "./user.entity";
+import { UserEntity } from "./user.entity";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { inject, injectable } from "inversify";
 import { AppComponent } from "../../types/app-component.enum";

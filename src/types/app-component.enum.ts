@@ -4,5 +4,7 @@ export const AppComponent = {
   ConfigInterface: Symbol.for('ConfigInterface'),
   DatabaseClientInterface: Symbol.for('DatabaseClientInterface'),
   UserService: Symbol.for('UserService'),
-  UserModel: Symbol.for('UserModel')
+  UserModel: Symbol.for('UserModel'),
+  OfferService: Symbol.for('OfferService'),
+  OfferModel: Symbol.for('OfferModel')
 } as const;
