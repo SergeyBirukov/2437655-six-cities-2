@@ -20,7 +20,7 @@ export class ImportCommand implements ICliCommand {
   public readonly name = '--import';
 
   private readonly userService: UserService;
-  private readonly offerService: OfferService
+  private readonly offerService: OfferService;
   private readonly databaseClient: DatabaseClient;
   private readonly logger: Logger;
 
@@ -35,9 +35,9 @@ export class ImportCommand implements ICliCommand {
     await this.databaseClient.connect(connectionString);
     try {
       this.readOffers(filename.trim(), salt)
-      .then((count: number) => {
-        this.logger.info(`File ${chalk.blueBright(filename)} was successfully read. ${count} offers were imported`);
-      });
+        .then((count: number) => {
+          this.logger.info(`File ${chalk.blueBright(filename)} was successfully read. ${count} offers were imported`);
+        });
     } catch (err) {
       this.logger.error(`${chalk.redBright(`ERROR! Can't read the file: ${(err as Error).message}`)}`);
     }
