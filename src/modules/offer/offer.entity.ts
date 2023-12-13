@@ -1,9 +1,9 @@
 import { defaultClasses, getModelForClass, prop, modelOptions, Ref, Severity } from '@typegoose/typegoose';
-import { UserEntity } from '../user/user.entity';
-import { City } from '../../types/city.enum';
-import { Facility } from '../../types/facility-type.enum';
-import { HousingType } from '../../types/housing-type.enum';
-import { Coordinates } from '../../types/coordinates.type';
+import { UserEntity } from '../user/user.entity.js';
+import { City } from '../../types/city.enum.js';
+import { Facility } from '../../types/facility-type.enum.js';
+import { HousingType } from '../../types/housing-type.enum.js';
+import { Coordinates } from '../../types/coordinates.type.js';
 export interface OfferEntity extends defaultClasses.Base {}
 
 @modelOptions({
@@ -19,7 +19,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     public description!: string;
 
     @prop({ required: true })
-    public publicationDate!: Date;
+    public postDate!: Date;
 
     @prop({ required: true, enum: City })
     public city!: City;
@@ -28,13 +28,13 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     public preview!: string;
 
     @prop({ required: true, type: String, default: [] })
-    public images!: Array<string>;
+    public photos!: Array<string>;
 
     @prop({ required: true })
     public isPremium!: boolean;
 
     @prop({ required: true })
-    public isFavourite!: boolean;
+    public isFavorite!: boolean;
 
     @prop({ required: true })
     public rating!: number;
@@ -43,16 +43,16 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     public housingType!: HousingType;
 
     @prop({ required: true })
-    public roomCount!: number;
+    public roomsCount!: number;
 
     @prop({ required: true })
-    public guestCount!: number;
+    public guestsCount!: number;
 
     @prop({ required: true })
-    public cost!: number;
+    public price!: number;
 
     @prop({ required: true, enum: Facility, type: String, default: [] })
-    public facility!: Array<Facility>;
+    public facilities!: Array<Facility>;
 
     @prop({ required: true, ref: UserEntity })
     public author!: Ref<UserEntity>;

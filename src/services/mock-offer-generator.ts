@@ -103,7 +103,7 @@ export const parseOffer = (offerString: string): Offer => {
     postDate: new Date(publicationDate),
     city: city as unknown as City,
     preview: preview,
-    photos: images.split(',') as [string,string,string,string,string, string],
+    photos: images.split(';') as [string,string,string,string,string, string],
     isPremium: premium as unknown as boolean,
     isFavorite: favorite as unknown as boolean,
     rating: parseFloat(rating),
@@ -111,7 +111,7 @@ export const parseOffer = (offerString: string): Offer => {
     roomsCount: parseInt(roomCount, 10),
     guestsCount: parseInt(guestCount, 10),
     price: parseInt(cost, 10),
-    facilities: facilities.split(',').map((x) => x as unknown as Facility),
+    facilities: facilities.split(';').map((x) => x as unknown as Facility),
     author: {
       name: authorName,
       avatar: authorAvatar as `${string}.${'jpg' | 'png'}`,
