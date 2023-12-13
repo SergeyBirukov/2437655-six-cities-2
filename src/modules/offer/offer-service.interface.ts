@@ -8,6 +8,6 @@ export interface OfferService {
   findById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 
   incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
-  
+
   addRating(offerId: string, rating: number): Promise<DocumentType<OfferEntity> | null>;
 }
