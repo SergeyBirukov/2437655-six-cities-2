@@ -5,9 +5,16 @@ import { AppComponent } from './types/app-component.enum.js';
 import { createRestApplicationContainer } from './rest/rest.contaner.js';
 import { createUserContainer } from './modules/user/user.container.js';
 import { createOfferContainer } from './modules/offer/offer.container.js';
+import { createCommentContainer } from './modules/comment/comment.container.js';
 
 async function bootstrap() {
-  const appContainer = Container.merge(createRestApplicationContainer(), createUserContainer(), createOfferContainer());
+  const appContainer = Container.merge(
+    createRestApplicationContainer(),
+    createUserContainer(),
+    createOfferContainer(),
+    createCommentContainer()
+  );
+
   const application = appContainer.get<RestApplication>(AppComponent.RestApplication);
   await application.init();
 }
