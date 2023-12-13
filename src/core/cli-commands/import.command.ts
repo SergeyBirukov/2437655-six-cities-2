@@ -61,6 +61,6 @@ export class ImportCommand implements ICliCommand {
       password: DEFAULT_USER_PASSWORD,
     }, salt);
 
-    await this.offerService.create({...offer, author: user.id });
+    await this.offerService.create({...offer, userId: user.id });
   }
 }

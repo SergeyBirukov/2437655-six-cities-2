@@ -13,14 +13,11 @@ export class CreateOfferDto {
   public preview!: string;
   public photos!: Array<string>;
   public isPremium!: boolean;
-  public isFavorite!: boolean;
-  public rating!: number;
   public housingType!: HousingType;
   public roomsCount!: number;
   public guestsCount!: number;
   public price!: number;
   public facilities!: Array<Facility>;
-  public author!: User;
-  public commentsCount!: number;
+  public userId!: User;
   public coordinates!: Coordinates;
 }
