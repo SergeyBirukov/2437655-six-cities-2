@@ -23,6 +23,7 @@ export default class RestApplication {
     this.logger.info('Application initialization…')
 
     await this._initDb();
+    await this._initMiddlewares();
     await this._initServer();
   }
 
@@ -48,5 +49,9 @@ export default class RestApplication {
     this.expressApplication.listen(port);
 
     this.logger.info(`🚀Server started on http://localhost:${this.config.get('PORT')}`);
+  }
+
+  private async _initMiddlewares(){
+    this.expressApplication.use(express.json());
   }
 }
