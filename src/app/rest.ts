@@ -5,16 +5,30 @@ import { inject, injectable } from 'inversify';
 import { AppComponent } from '../types/app-component.enum.js';
 import { DatabaseClient } from '../core/database-client/database-client.interface.js';
 import { getMongoURI } from '../core/helpers/db.js';
+import express, { Express } from 'express';
 
 @injectable()
 export default class RestApplication {
+  private expressApplication: Express;
+
   constructor(
       @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface,
       @inject(AppComponent.ConfigInterface) private readonly config: ConfigInterface<RestSchema>,
       @inject(AppComponent.DatabaseClientInterface) private readonly databaseClient: DatabaseClient
-  ) {}
+  ) {
+    this.expressApplication = express();
+  }
+
+  public async init() {
+    this.logger.info('Application initialization…')
+
+    await this._initDb();
+    await this._initServer();
+  }
 
   private async _initDb() {
+    this.logger.info('Init database…');
+
     const mongoUri = getMongoURI(
       this.config.get('DB_USER'),
       this.config.get('DB_PASSWORD'),
@@ -23,15 +37,16 @@ export default class RestApplication {
       this.config.get('DB_NAME'),
     );
 
-    return this.databaseClient.connect(mongoUri);
+    await this.databaseClient.connect(mongoUri);
+    this.logger.info('Init database completed');
   }
 
-  public async init() {
-    this.logger.info('Application initialization…');
-    this.logger.info(`Get value from env $PORT: ${this.config.get('PORT')}`);
+  private async _initServer() {
+    this.logger.info('Try to init server…');
 
-    this.logger.info('Init database…');
-    await this._initDb();
-    this.logger.info('Init database completed');
+    const port = this.config.get('PORT');
+    this.expressApplication.listen(port);
+
+    this.logger.info(`🚀Server started on http://localhost:${this.config.get('PORT')}`);
   }
 }
