@@ -176,12 +176,12 @@ paths:
     post:
       tags:
         - Comments
-      summary: Create a new comment for an offer
+      summary: Create a new comments for an offer
       parameters:
         - name: offerId
           in: path
           required: true
-          description: The ID of the offer to create a comment for
+          description: The ID of the offer to create a comments for
           schema:
             type: string
       requestBody:

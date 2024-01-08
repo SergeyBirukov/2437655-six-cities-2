@@ -1,10 +1,10 @@
-import { ICliCommand } from './cli-command.interface.js';
+import { CliCommandInterface } from './cli-command.interface.js';
 import { MockData } from '../../types/mock-data.type.js';
 import { FileWriter } from '../../services/file-service.js';
 import { generateOffer } from '../../services/mock-offer-generator.js';
 import got from 'got';
 
-export class GenerateCommand implements ICliCommand {
+export class GenerateCommand implements CliCommandInterface {
   public readonly name = '--generate';
   private initialData!: MockData;
 

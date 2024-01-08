@@ -5,7 +5,7 @@ import { OfferEntity, OfferModel } from './offer.entity.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { OfferService } from './offer.service.js';
 import OfferController from './offer.controller.js';
-import { ControllerBase } from '../../rest/contoller/contoller.abstract.js';
+import { ControllerBase } from '../../rest/contoller/contoller-base.abstract.js';
 
 export function createOfferContainer() {
   const offerContainer = new Container();

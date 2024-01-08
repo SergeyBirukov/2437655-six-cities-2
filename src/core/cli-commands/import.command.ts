@@ -1,4 +1,4 @@
-import { ICliCommand } from './cli-command.interface.js';
+import { CliCommandInterface } from './cli-command.interface.js';
 import chalk from 'chalk';
 import { FileReader } from '../../services/file-service.js';
 import { UserServiceInterface } from '../../modules/user/user-service.interface.js';
@@ -19,7 +19,7 @@ import ConfigService from '../config/config.service.js';
 
 const DEFAULT_USER_PASSWORD = 'pwd123';
 
-export class ImportCommand implements ICliCommand {
+export class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';
 
   private readonly userService: UserServiceInterface;

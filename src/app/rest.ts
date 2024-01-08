@@ -7,7 +7,7 @@ import { DatabaseClient } from '../core/database-client/database-client.interfac
 import { getMongoURI } from '../core/helpers/db.js';
 import express, { Express } from 'express';
 import {ExceptionFilterInterface} from '../rest/exceptions/exception-filter.interface.js';
-import {ControllerBase} from '../rest/contoller/contoller.abstract.js';
+import {ControllerBase} from '../rest/contoller/contoller-base.abstract.js';
 
 @injectable()
 export default class RestApplication {

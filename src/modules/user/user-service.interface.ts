@@ -6,6 +6,7 @@ import {OfferEntity} from '../offer/offer.entity.js';
 export interface UserServiceInterface {
   create(dto: CreateUserDto): Promise<DocumentType<UserEntity>>;
   findByEmail(email: string): Promise<DocumentType<UserEntity> | null>;
+  findById(userId: string): Promise<DocumentType<UserEntity> | null>;
   findOrCreate(dto: CreateUserDto): Promise<DocumentType<UserEntity>>;
   addToFavoritesById(userId: string, offerId: string): Promise<DocumentType<OfferEntity>[] | null>;
   removeFromFavoritesById(userId: string, offerId: string): Promise<DocumentType<OfferEntity>[] | null>;

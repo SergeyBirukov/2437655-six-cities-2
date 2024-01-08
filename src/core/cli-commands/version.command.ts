@@ -1,8 +1,8 @@
-import { ICliCommand } from './cli-command.interface.js';
+import { CliCommandInterface } from './cli-command.interface.js';
 import path from 'node:path';
 import { readFileSync } from 'node:fs';
 
-export class VersionCommand implements ICliCommand {
+export class VersionCommand implements CliCommandInterface {
   readonly name = '--version';
   private version?: string;
 

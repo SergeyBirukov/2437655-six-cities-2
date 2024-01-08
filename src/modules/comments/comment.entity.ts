@@ -12,19 +12,24 @@ export interface CommentEntity extends defaultClasses.Base {}
   },
 })
 export class CommentEntity extends defaultClasses.TimeStamps {
-  @prop({ trim: true, required: true })
+  @prop({
+    required: true,
+    trim: true,
+    minlength: [5, 'Min length for comment is 5'],
+    maxlength: [1024, 'Max length for comment is 1024'],
+  })
   public text!: string;
 
   @prop({ required: false })
   public publicationDate!: Date;
 
-  @prop({ required: true })
+  @prop({required: true, min: [1, 'Min rating is 1'], max: [5, 'Max rating is 5']})
   public rating!: number;
 
-  @prop({ required: true, ref: UserEntity })
+  @prop({ref: UserEntity, required: true})
   public userId!: Ref<UserEntity>;
 
-  @prop({ required: true, ref: OfferEntity })
+  @prop({ref: OfferEntity, required: true})
   public offerId!: Ref<OfferEntity>;
 }
 
