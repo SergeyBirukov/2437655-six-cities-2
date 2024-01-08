@@ -6,18 +6,16 @@ import { RestSchema } from '../core/config/rest.schema.js';
 import ConfigService from '../core/config/config.service.js';
 import { DatabaseClient } from '../core/database-client/database-client.interface.js';
 import MongoClientService from '../core/database-client/mongo-client.service.js';
-import { AppComponent } from '../types/app-component.enum.js';
+import { AppComponents } from '../types/app-component.enum.js';
 import RestApplication from '../app/rest.js';
+import ExceptionFilter from './exceptions/exception-filter.js';
 
 export function createRestApplicationContainer() {
   const container = new Container();
-  container.bind<RestApplication>(AppComponent.RestApplication).to(RestApplication).inSingletonScope();
-  container.bind<LoggerInterface>(AppComponent.LoggerInterface).to(PinoService).inSingletonScope();
-  container.bind<ConfigInterface<RestSchema>>(AppComponent.ConfigInterface).to(ConfigService).inSingletonScope();
-  container
-    .bind<DatabaseClient>(AppComponent.DatabaseClientInterface)
-    .to(MongoClientService)
-    .inSingletonScope();
-
+  container.bind<RestApplication>(AppComponents.RestApplication).to(RestApplication).inSingletonScope();
+  container.bind<LoggerInterface>(AppComponents.LoggerInterface).to(PinoService).inSingletonScope();
+  container.bind<ConfigInterface<RestSchema>>(AppComponents.ConfigInterface).to(ConfigService).inSingletonScope();
+  container.bind<DatabaseClient>(AppComponents.DatabaseClientInterface).to(MongoClientService).inSingletonScope();
+  container.bind<ExceptionFilter>(AppComponents.ExceptionFilterInterface).to(ExceptionFilter).inSingletonScope();
   return container;
 }

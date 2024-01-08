@@ -5,7 +5,7 @@ import { Coordinates } from '../../../types/coordinates.type.js';
 import { User } from '../../../types/user.type.js';
 
 
-export class CreateOfferDto {
+export class CreateOrUpdateOfferDto {
   public title!: string;
   public description!: string;
   public postDate!: Date;
