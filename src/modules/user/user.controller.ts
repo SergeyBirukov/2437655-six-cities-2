@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { plainToInstance } from 'class-transformer';
-import { ControllerBase} from '../../rest/contoller/contoller.abstract.js';
+import { ControllerBase} from '../../rest/contoller/contoller-base.abstract.js';
 import { LoggerInterface} from '../../logger/logger.interface.js';
 import { UserServiceInterface} from './user-service.interface.js';
 import { AppComponents} from '../../types/app-component.enum.js';
@@ -10,7 +10,7 @@ import { HttpMethod} from '../../rest/types/http-method.enum.js';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import {LoginUserDto} from './dto/login-user.dto.js';
 import { HttpError} from '../../rest/exceptions/http-error.enum.js';
-import { OfferDto} from '../offer/dto/offer.dto.js';
+import { OfferResponseDto} from '../offer/dto/offer-response.dto.js';
 
 @injectable()
 export default class UserController extends ControllerBase {
@@ -67,7 +67,7 @@ export default class UserController extends ControllerBase {
     _res: Response,
   ): Promise<void> {
     const result = await this.userService.findFavorites(body.userId);
-    this.ok(_res, plainToInstance(OfferDto, result, { excludeExtraneousValues: true }));
+    this.ok(_res, plainToInstance(OfferResponseDto, result, { excludeExtraneousValues: true }));
   }
 
   public async addFavorite(

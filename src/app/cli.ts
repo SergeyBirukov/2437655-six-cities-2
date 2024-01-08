@@ -1,11 +1,11 @@
-import { ICliCommand } from '../core/cli-commands/cli-command.interface.js';
+import { CliCommandInterface } from '../core/cli-commands/cli-command.interface.js';
 
 type ParsedCommand = {
   [key: string]: string[]
 }
 
 export class CLIApplication {
-  private commands: {[propertyName: string]: ICliCommand} = {};
+  private commands: {[propertyName: string]: CliCommandInterface} = {};
   private defaultCommand = '--help';
 
   private parseCommand(cliArguments: string[]): ParsedCommand {
@@ -24,7 +24,7 @@ export class CLIApplication {
     }, parsedCommand);
   }
 
-  public getCommand(commandName: string): ICliCommand {
+  public getCommand(commandName: string): CliCommandInterface {
     return this.commands[commandName] ?? this.commands[this.defaultCommand];
   }
 
@@ -36,7 +36,7 @@ export class CLIApplication {
     command.execute(...commandArguments);
   }
 
-  public registerCommands(commandList: ICliCommand[]): void {
+  public registerCommands(commandList: CliCommandInterface[]): void {
     commandList.reduce((acc, command) => {
       const cliCommand = command;
       acc[cliCommand.name] = cliCommand;

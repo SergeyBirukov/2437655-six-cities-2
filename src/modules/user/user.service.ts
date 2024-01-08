@@ -32,6 +32,10 @@ export class UserService implements UserServiceInterface {
     return this.userModel.findOne({email});
   }
 
+  public async findById(userId: string): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findOne({ _id: userId });
+  }
+
   public async findOrCreate(dto: CreateUserDto): Promise<DocumentType<UserEntity>> {
     const existedUser = await this.findByEmail(dto.email);
 
@@ -56,6 +60,6 @@ export class UserService implements UserServiceInterface {
       return [];
     }
 
-    return this.userModel.find({ _id: { $in: offers } }).populate('offerId');
+    return this.userModel.find({ _id: { $in: offers.favorite } });
   }
 }

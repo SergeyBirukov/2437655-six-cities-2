@@ -4,7 +4,8 @@ import { AppComponents } from '../../types/app-component.enum.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { OfferEntity } from './offer.entity.js';
 import { DocumentType, types } from '@typegoose/typegoose';
-import { CreateOrUpdateOfferDto } from './dto/create-or-update-offer.dto.js';
+import { CreateOfferDto } from './dto/create-offer.dto.js';
+import {UpdateOfferDto} from './dto/update-offer.dto.js';
 
 const MAX_OFFERS_COUNT = 60;
 const MAX_PREMIUM_OFFERS_COUNT = 10;
@@ -17,7 +18,7 @@ export class OfferService implements OfferServiceInterface {
         @inject(AppComponents.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>
   ){}
 
-  public async create(dto: CreateOrUpdateOfferDto): Promise<DocumentType<OfferEntity>> {
+  public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
     const result = await this.offerModel.create(dto);
     this.logger.info(`New offer created: ${dto.title}`);
 
@@ -28,28 +29,21 @@ export class OfferService implements OfferServiceInterface {
     return this.offerModel.findById(offerId).exec();
   }
 
-  public async incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+  public async incCommentsCount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, {
         $inc: {
-          commentCount: 1,
+          commentsCount: 1,
         },
       })
       .exec();
   }
 
-  public async addRating(offerId: string, rating: number): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel
-      .findByIdAndUpdate(offerId, {
-        $inc: {
-          ratingNumerator: rating,
-          ratingDenominator: 1,
-        },
-      })
-      .exec();
+  public async updateRating(offerId: string, rating: number): Promise<void> {
+    await this.offerModel.findByIdAndUpdate(offerId, { rating: rating }, { new: true }).exec();
   }
 
-  public async updateById(offerId: string, dto: CreateOrUpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
+  public async updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel.findByIdAndUpdate(offerId, dto, { new: true }).populate('userId').exec();
   }
 
@@ -69,5 +63,9 @@ export class OfferService implements OfferServiceInterface {
       .limit(MAX_PREMIUM_OFFERS_COUNT)
       .populate('author')
       .exec();
+  }
+
+  public async isExists(documentId: string): Promise<boolean> {
+    return (await this.offerModel.exists({ _id: documentId })) !== null;
   }
 }

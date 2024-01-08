@@ -1,7 +1,7 @@
 import chalk from 'chalk';
-import { ICliCommand } from './cli-command.interface.js';
+import { CliCommandInterface } from './cli-command.interface.js';
 
-export class HelpCommand implements ICliCommand {
+export class HelpCommand implements CliCommandInterface {
   readonly name = '--help';
 
   public async execute(): Promise<void> {

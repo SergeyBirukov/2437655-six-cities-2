@@ -4,7 +4,7 @@ import { AppComponents } from '../../types/app-component.enum.js';
 import { UserService } from './user.service.js';
 import { types } from '@typegoose/typegoose';
 import { UserEntity, UserModel } from './user.entity.js';
-import {ControllerBase} from '../../rest/contoller/contoller.abstract.js';
+import {ControllerBase} from '../../rest/contoller/contoller-base.abstract.js';
 import UserController from './user.controller.js';
 
 export function createUserContainer() {

@@ -15,20 +15,23 @@ const { prop, modelOptions } = typegoose;
 })
 
 export class UserEntity extends defaultClasses.TimeStamps implements User {
-    @prop({ required: true, default: '' })
+    @prop({ required: true, minlength: 1, maxlength: 15 })
   public name: string;
 
-    @prop({ unique: true, required: true })
+    @prop({ unique: true, required: true, match: [/^.+@.+$/, 'Email is incorrect'] })
     public email: string;
 
-    @prop({ required: false, default: '' })
+    @prop({ required: false, default: '', match: [/.*\.(?:jpg|png)/, 'Avatar must be jpg or png']})
     public avatar?: string;
 
     @prop({ required: true, default: '' })
     public password?: string;
 
-    @prop({ required: true, default: UserType.Regular })
+    @prop({required: true, type: () => String, enum: UserType})
     public type: UserType;
+
+    @prop({required: true, type: () => String})
+    public favorite!: string[];
 
     constructor(userData: User,
     private readonly config?: ConfigInterface<RestSchema>){
