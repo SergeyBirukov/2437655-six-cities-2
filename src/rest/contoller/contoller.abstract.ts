@@ -6,7 +6,7 @@ import { LoggerInterface } from '../../logger/logger.interface.js';
 import { RouteInterface } from '../types/route.interface.js';
 
 @injectable()
-export abstract class Controller implements ControllerInterface {
+export abstract class ControllerBase implements ControllerInterface {
   private readonly _router: Router;
 
   constructor(

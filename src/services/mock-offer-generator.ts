@@ -114,9 +114,9 @@ export const parseOffer = (offerString: string): Offer => {
     facilities: facilities.split(';').map((x) => x as unknown as Facility),
     author: {
       name: authorName,
-      avatar: authorAvatar as `${string}.${'jpg' | 'png'}`,
+      avatar: authorAvatar,
       type: authorType as unknown as UserType,
-      email: authorEmail as `${string}@${string}`,
+      email: authorEmail,
       password: authorPassword,
     },
     commentsCount: parseInt(commentsCount, 10),

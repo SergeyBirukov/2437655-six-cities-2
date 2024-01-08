@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { LoggerInterface } from '../../logger/logger.interface.js';
-import { AppComponent } from '../../types/app-component.enum.js';
-import { OfferService } from './offer-service.interface.js';
+import { AppComponents } from '../../types/app-component.enum.js';
+import { OfferServiceInterface } from './offer-service.interface.js';
 import { OfferEntity } from './offer.entity.js';
 import { DocumentType, types } from '@typegoose/typegoose';
 import { CreateOrUpdateOfferDto } from './dto/create-or-update-offer.dto.js';
@@ -11,10 +11,10 @@ const MAX_PREMIUM_OFFERS_COUNT = 10;
 const SORT_DESC = -1;
 
 @injectable()
-export class DefaultOfferService implements OfferService {
+export class OfferService implements OfferServiceInterface {
   constructor (
-        @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface,
-        @inject(AppComponent.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>
+        @inject(AppComponents.LoggerInterface) private readonly logger: LoggerInterface,
+        @inject(AppComponents.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>
   ){}
 
   public async create(dto: CreateOrUpdateOfferDto): Promise<DocumentType<OfferEntity>> {

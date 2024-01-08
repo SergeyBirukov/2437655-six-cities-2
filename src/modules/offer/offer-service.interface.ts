@@ -2,7 +2,7 @@ import { DocumentType } from '@typegoose/typegoose';
 import { OfferEntity } from './offer.entity.js';
 import { CreateOrUpdateOfferDto } from './dto/create-or-update-offer.dto.js';
 
-export interface OfferService {
+export interface OfferServiceInterface {
   create(dto: CreateOrUpdateOfferDto): Promise<DocumentType<OfferEntity>>;
 
   findById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
@@ -16,6 +16,6 @@ export interface OfferService {
   deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 
   find(count: number | undefined): Promise<DocumentType<OfferEntity>[]>;
-  
+
   findPremiumByCity(city: string): Promise<DocumentType<OfferEntity>[]>;
 }

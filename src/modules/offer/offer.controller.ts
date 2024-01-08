@@ -2,20 +2,20 @@ import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { plainToInstance } from 'class-transformer';
-import { Controller } from '../../rest/contoller/contoller.abstract.js';
+import { ControllerBase } from '../../rest/contoller/contoller.abstract.js';
 import { LoggerInterface } from '../../logger/logger.interface.js';
-import { OfferService } from './offer-service.interface.js';
-import { AppComponent } from '../../types/app-component.enum.js';
+import { OfferServiceInterface } from './offer-service.interface.js';
+import { AppComponents } from '../../types/app-component.enum.js';
 import { HttpMethod } from '../../rest/types/http-method.enum.js';
 import { CreateOrUpdateOfferDto } from './dto/create-or-update-offer.dto.js';
 import { OfferDto } from './dto/offer.dto.js';
 import { HttpError } from '../../rest/exceptions/http-error.enum.js';
 
 @injectable()
-export default class OfferController extends Controller {
+export default class OfferController extends ControllerBase {
   constructor(
-    @inject(AppComponent.LoggerInterface) logger: LoggerInterface,
-    @inject(AppComponent.OfferService) private readonly offerService: OfferService,
+    @inject(AppComponents.LoggerInterface) logger: LoggerInterface,
+    @inject(AppComponents.OfferService) private readonly offerService: OfferServiceInterface,
   ) {
     super(logger);
 

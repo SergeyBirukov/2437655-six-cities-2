@@ -1,36 +1,35 @@
-
-import { Expose } from "class-transformer";
-import { HousingType } from "../../../types/housing-type.enum";
-import { City } from "../../../types/city.enum";
+import { Expose } from 'class-transformer';
+import { HousingType } from '../../../types/housing-type.enum';
+import { City } from '../../../types/city.enum';
 
 export class OfferDto {
     @Expose()
-    id!: string;
-  
+      id!: string;
+
     @Expose()
-    title!: string;
-  
+      title!: string;
+
     @Expose()
-    postDate!: Date;
-  
+      postDate!: Date;
+
     @Expose()
-    city!: City;
-  
+      city!: City;
+
     @Expose()
-    preview!: string;
-  
+      preview!: string;
+
     @Expose()
-    isPremium!: boolean;
-  
+      isPremium!: boolean;
+
     @Expose()
-    rating!: number;
-  
+      rating!: number;
+
     @Expose()
-    housingType!: HousingType;
-  
+      housingType!: HousingType;
+
     @Expose()
-    price!: number;
-  
+      price!: number;
+
     @Expose()
-    commentsCount!: number;
-  }
+      commentsCount!: number;
+}
