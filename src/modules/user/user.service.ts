@@ -1,7 +1,7 @@
 import { UserServiceInterface } from './user-service.interface';
 import { DocumentType, types } from '@typegoose/typegoose';
 import { UserEntity } from './user.entity.js';
-import { CreateUserDto } from './dto/create-user.dto.js';
+import { CreateUserRequest } from './dto/create-user.request.js';
 import { inject, injectable } from 'inversify';
 import { AppComponents } from '../../types/app-component.enum.js';
 import { LoggerInterface } from '../../logger/logger.interface.js';
@@ -18,7 +18,7 @@ export class UserService implements UserServiceInterface {
         @inject(AppComponents.ConfigInterface) private readonly config: ConfigInterface<RestSchema>,
   ){}
 
-  public async create(dto: CreateUserDto): Promise<DocumentType<UserEntity>> {
+  public async create(dto: CreateUserRequest): Promise<DocumentType<UserEntity>> {
     const user = new UserEntity({ ...dto, type: UserType.Regular }, this.config);
     user.setPassword(dto.password);
 
@@ -36,7 +36,7 @@ export class UserService implements UserServiceInterface {
     return this.userModel.findOne({ _id: userId });
   }
 
-  public async findOrCreate(dto: CreateUserDto): Promise<DocumentType<UserEntity>> {
+  public async findOrCreate(dto: CreateUserRequest): Promise<DocumentType<UserEntity>> {
     const existedUser = await this.findByEmail(dto.email);
 
     if (existedUser) {

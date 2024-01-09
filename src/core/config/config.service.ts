@@ -1,4 +1,4 @@
-import { ConfigInterface } from './config.interface';
+import { ConfigInterface } from './config.interface.js';
 import { LoggerInterface } from '../../logger/logger.interface.js';
 import { config } from 'dotenv';
 import { configRestSchema, RestSchema } from './rest.schema.js';

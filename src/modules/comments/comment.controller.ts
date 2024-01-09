@@ -8,7 +8,7 @@ import { AppComponents } from '../../types/app-component.enum.js';
 import { HttpMethod } from '../../rest/types/http-method.enum.js';
 import { ValidateDtoMiddleware } from '../../rest/middleware/validate-dto.middleware.js';
 import CommentResponse from './dto/comment-response.dto.js';
-import {CreateCommentDto } from './dto/create-comment.dto.js';
+import {CreateCommentRequest } from './dto/create-comment.request.js';
 import {IsDocumentExistsMiddleware} from '../../rest/middleware/is-document-exists.middleware.js';
 import { plainToInstance } from 'class-transformer';
 
@@ -26,13 +26,13 @@ export default class CommentController extends ControllerBase {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
-        new ValidateDtoMiddleware(CreateCommentDto),
+        new ValidateDtoMiddleware(CreateCommentRequest),
         new IsDocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
   }
 
-  public async create({ body }: Request<object, object, CreateCommentDto>, res: Response): Promise<void> {
+  public async create({ body }: Request<object, object, CreateCommentRequest>, res: Response): Promise<void> {
     const comment = await this.commentService.create(body);
     this.created(res, plainToInstance(CommentResponse, comment, { excludeExtraneousValues: true }));
   }

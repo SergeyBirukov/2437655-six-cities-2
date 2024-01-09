@@ -10,7 +10,7 @@ export class FavoriteOfferResponse {
     title!: string;
 
   @Expose()
-    postData!: Date;
+    postDate!: Date;
 
   @Expose()
     city!: City;

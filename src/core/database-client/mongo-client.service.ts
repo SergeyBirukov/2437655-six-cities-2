@@ -49,7 +49,7 @@ export default class MongoClientService implements DatabaseClient {
       throw new Error('MongoDB client already connected');
     }
 
-    this.logger.info('Trying to connect to MongoDB…');
+    this.logger.info('Trying to connect to MongoDB...');
     await this._connect(uri);
     this.logger.info('Database connection established.');
   }

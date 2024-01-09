@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { CreateCommentDto } from './dto/create-comment.dto.js';
+import { CreateCommentRequest } from './dto/create-comment.request.js';
 import { DocumentType, types } from '@typegoose/typegoose';
 import { CommentEntity } from './comment.entity.js';
 import { CommentServiceInterface } from './comment-service.interface.js';
@@ -16,7 +16,7 @@ export default class CommentService implements CommentServiceInterface {
     @inject(AppComponents.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
   ) {}
 
-  public async create(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {
+  public async create(dto: CreateCommentRequest): Promise<DocumentType<CommentEntity>> {
     const comment = await this.commentModel.create(dto);
     const offerId = dto.offerId;
     await this.offerService.incCommentsCount(offerId);

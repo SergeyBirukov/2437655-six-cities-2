@@ -25,7 +25,7 @@ export default class RestApplication {
   }
 
   public async init() {
-    this.logger.info('Application initialization…');
+    this.logger.info('Application initialization...');
 
     await this._initDb();
     await this._initRoutes();
@@ -35,7 +35,7 @@ export default class RestApplication {
   }
 
   private async _initDb() {
-    this.logger.info('Init database…');
+    this.logger.info('Init database...');
 
     const mongoUri = getMongoURI(
       this.config.get('DB_USER'),
@@ -50,12 +50,12 @@ export default class RestApplication {
   }
 
   private async _initServer() {
-    this.logger.info('Try to init server…');
+    this.logger.info('Try to init server...');
 
     const port = this.config.get('PORT');
     this.expressApp.listen(port);
 
-    this.logger.info(`🚀Server started on http://localhost:${this.config.get('PORT')}`);
+    this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
   }
 
   private async _initMiddlewares(){
@@ -65,6 +65,7 @@ export default class RestApplication {
   private async _initRoutes() {
     this.expressApp.use('/offers', this.offerController.router);
     this.expressApp.use('/users', this.userController.router);
+    this.expressApp.use('/upload', express.static(this.config.get('UPLOAD_DIRECTORY')));
   }
 
   private async _initExceptionFilters() {

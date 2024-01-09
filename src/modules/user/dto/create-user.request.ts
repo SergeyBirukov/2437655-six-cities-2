@@ -1,7 +1,7 @@
-import { UserType } from '../../../types/user-type.enum';
+import { UserType } from '../../../types/user-type.enum.js';
 import { IsEmail, IsEnum, IsString, Length } from 'class-validator';
 
-export class CreateUserDto {
+export class CreateUserRequest {
   @Length(1, 15, { message: 'Username length should be from 1 to 15.' })
   @IsString({ message: 'Username is required.' })
   public name!: string;
