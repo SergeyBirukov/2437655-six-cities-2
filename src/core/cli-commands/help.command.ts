@@ -15,11 +15,19 @@ export class HelpCommand implements CliCommandInterface {
       + chalk.yellow('e')
       + chalk.green('l')
       + chalk.blue('p')
-      + chalk.bgBlackBright.whiteBright('\t\t\t#выводит этот текст'));
+      + chalk.bgBlackBright.whiteBright('\t\t\t\t\t#выводит этот текст'));
     console.log(chalk.green('\t--version:')
-      + chalk.bgBlackBright.whiteBright('\t\t#выводит информацию о версии приложения'));
+      + chalk.bgBlackBright.whiteBright('\t\t\t\t#выводит информацию о версии приложения'));
     console.log(chalk.green('\t--import ')
       + chalk.yellow('<path>')
-      + chalk.bgBlackBright.whiteBright('\t\t#импортирует данные из *.tsv файла и выводит результат в консоль'));
+      + chalk.bgBlackBright.whiteBright('\t\t\t\tt#импортирует данные из *.tsv файла и выводит результат в консоль'));
+    console.log(chalk.green('\t--generate ')
+      + chalk.yellow('<count> ')
+      + chalk.yellow('<path> ')
+      + chalk.yellow('<url>')
+      + chalk.bgBlackBright.whiteBright('\t\t#генерирует случайные предложения из готового набора данных.\n' +
+        '\t\t\t\t\t\tcount -- количество генерируемых предложений\n' +
+        '\t\t\t\t\t\tpath -- путь до файла, в который нужно сохранить сгенерированные предложения\n' +
+        '\t\t\t\t\t\turl -- url сервера, предоставляющего данные для генерации'));
   }
 }

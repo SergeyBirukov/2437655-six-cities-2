@@ -1,2 +1,2 @@
-testOffer1	description1	2023-04-10	Paris	imgLink1	imgLink1;imgLink2;imgLink3;imgLink4;imgLink5;imgLink6	true	false	4	apartment	3	5	Air conditioning;Laptop friendly workspace	User1	avatar.png	pro	user1@mail.com	pwd1	43	48.85661	2.351499	500
-testOffer2	description2	2023-04-11	Cologne	imgLink2	imgLink1;imgLink2;imgLink3;imgLink4;imgLink5;imgLink6	false	true	3,7	house	6	7	Fridge;Towels;Washer	User2	avatar.png	regular	user2@mail.com	pwd2	12	50.938361	6.959974	1500
+testOffer1	descriptiondescription1	2023-04-10	Paris	imgLink1	imgLink1;imgLink2;imgLink3;imgLink4;imgLink5;imgLink6	true	false	4	apartment	3	5	Air conditioning;Laptop friendly workspace	User1	avatar.png	pro	user1@mail.com	pwd1	43	48.85661	2.351499	500
+testOffer2	descriptiondescription2	2023-04-11	Cologne	imgLink2	imgLink1;imgLink2;imgLink3;imgLink4;imgLink5;imgLink6	false	true	3,7	house	6	7	Fridge;Towels;Washer	User2	avatar.png	regular	user2@mail.com	pwd2	12	50.938361	6.959974	1500
