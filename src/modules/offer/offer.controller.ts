@@ -6,17 +6,17 @@ import { LoggerInterface } from '../../logger/logger.interface.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { AppComponents } from '../../types/app-component.enum.js';
 import { HttpMethod } from '../../rest/types/http-method.enum.js';
-import { CreateOfferDto } from './dto/create-offer.dto.js';
-import { OfferResponseDto } from './dto/offer-response.dto.js';
+import { CreateOfferRequest } from './dto/create-offer.request.js';
+import { OfferResponse } from './dto/offer.response.js';
 import { ParamsDictionary } from 'express-serve-static-core';
 import {CommentServiceInterface} from '../comments/comment-service.interface.js';
 import {UserServiceInterface} from '../user/user-service.interface.js';
 import {ValidateDtoMiddleware} from '../../rest/middleware/validate-dto.middleware.js';
-import {CreateCommentDto} from '../comments/dto/create-comment.dto.js';
+import {CreateCommentRequest} from '../comments/dto/create-comment.request.js';
 import {ValidateObjectIdMiddleware} from '../../rest/middleware/validate-objectId.middleware.js';
 import {IsDocumentExistsMiddleware} from '../../rest/middleware/is-document-exists.middleware.js';
-import {UpdateOfferDto} from './dto/update-offer.dto.js';
-import {FavoriteOfferResponse} from './dto/favourite-offer-response.dto.js';
+import {UpdateOfferRequest} from './dto/update-offer.request.js';
+import {FavoriteOfferResponse} from './dto/favorite-offer-response.dto.js';
 
 export type ParamsOffer = { offerId: string; } | ParamsDictionary;
 export type ParamsCity = { city: string; } | ParamsDictionary;
@@ -25,13 +25,13 @@ export type ParamsCity = { city: string; } | ParamsDictionary;
 export default class OfferController extends ControllerBase {
   constructor(
     @inject(AppComponents.LoggerInterface) logger: LoggerInterface,
-    @inject(AppComponents.OfferService) private readonly offerService: OfferServiceInterface,
+    @inject(AppComponents.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
     @inject(AppComponents.UserServiceInterface) private readonly userService: UserServiceInterface,
     @inject(AppComponents.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
   ) {
     super(logger);
 
-    this.logger.info('Register routes for OfferController…');
+    this.logger.info('Register routes for OfferController...');
 
     this.addRoute({
       path: '/',
@@ -43,7 +43,7 @@ export default class OfferController extends ControllerBase {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateCommentDto)]
+      middlewares: [new ValidateDtoMiddleware(CreateCommentRequest)]
     });
 
     this.addRoute({
@@ -62,7 +62,7 @@ export default class OfferController extends ControllerBase {
       handler: this.update,
       middlewares: [
         new ValidateObjectIdMiddleware('offerId'),
-        new ValidateDtoMiddleware(UpdateOfferDto),
+        new ValidateDtoMiddleware(UpdateOfferRequest),
         new IsDocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
     });
@@ -110,11 +110,11 @@ export default class OfferController extends ControllerBase {
   public async index({ params }: Request<Record<string, unknown>>, res: Response): Promise<void> {
     const limit = params.limit ? parseInt(`${params.limit}`, 10) : undefined;
     const offers = await this.offerService.find(limit);
-    this.ok(res, plainToInstance(OfferResponseDto, offers, { excludeExtraneousValues: true }));
+    this.ok(res, plainToInstance(OfferResponse, offers, { excludeExtraneousValues: true }));
   }
 
   public async create(
-    { body }: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
+    { body }: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferRequest>,
     res: Response,
   ): Promise<void> {
     const result = await this.offerService.create(body);
@@ -123,11 +123,11 @@ export default class OfferController extends ControllerBase {
 
   public async get({ params }: Request<ParamsOffer>, res: Response): Promise<void> {
     const offer = await this.offerService.findById(`${params.offerId}`);
-    this.ok(res, plainToInstance(OfferResponseDto, offer, { excludeExtraneousValues: true }));
+    this.ok(res, plainToInstance(OfferResponse, offer, { excludeExtraneousValues: true }));
   }
 
   public async update(
-    { params, body }: Request<ParamsOffer, unknown, UpdateOfferDto>,
+    { params, body }: Request<ParamsOffer, unknown, UpdateOfferRequest>,
     res: Response,
   ): Promise<void> {
     const updatedOffer = await this.offerService.updateById(params.offerId, body);
@@ -142,7 +142,7 @@ export default class OfferController extends ControllerBase {
 
   public async getPremium({ params }: Request<ParamsCity>, res: Response): Promise<void> {
     const offers = await this.offerService.findPremiumByCity(params.city);
-    this.ok(res, plainToInstance(OfferResponseDto, offers, { excludeExtraneousValues: true }));
+    this.ok(res, plainToInstance(OfferResponse, offers, { excludeExtraneousValues: true }));
   }
 
   public async getFavorites(

@@ -9,7 +9,7 @@ import { ControllerBase } from '../../rest/contoller/contoller-base.abstract.js'
 
 export function createOfferContainer() {
   const offerContainer = new Container();
-  offerContainer.bind<OfferServiceInterface>(AppComponents.OfferService).to(OfferService).inSingletonScope();
+  offerContainer.bind<OfferServiceInterface>(AppComponents.OfferServiceInterface).to(OfferService).inSingletonScope();
   offerContainer.bind<types.ModelType<OfferEntity>>(AppComponents.OfferModel).toConstantValue(OfferModel);
   offerContainer.bind<ControllerBase>(AppComponents.OfferController).to(OfferController).inSingletonScope();
 

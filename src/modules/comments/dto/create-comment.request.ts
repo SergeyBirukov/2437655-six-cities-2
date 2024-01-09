@@ -1,6 +1,6 @@
 import {IsInt, IsMongoId, IsNotEmpty, IsString, Length, Max, Min} from 'class-validator';
 
-export class CreateCommentDto {
+export class CreateCommentRequest {
   @IsString({ message: 'text is required' })
   @Length(5, 1024, { message: 'Min length is 5, max is 1024' })
   public text!: string;

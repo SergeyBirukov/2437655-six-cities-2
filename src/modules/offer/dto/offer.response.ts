@@ -1,11 +1,11 @@
 import {Expose, Type} from 'class-transformer';
-import { HousingType } from '../../../types/housing-type.enum';
-import { City } from '../../../types/city.enum';
+import { HousingType } from '../../../types/housing-type.enum.js';
+import { City } from '../../../types/city.enum.js';
 import {Coordinates} from '../../../types/coordinates.type.js';
 import {UserResponse} from '../../user/dto/user-response.dto.js';
 import {Facility} from '../../../types/facility-type.enum.js';
 
-export class OfferResponseDto {
+export class OfferResponse {
     @Expose()
   public id!: string;
 
