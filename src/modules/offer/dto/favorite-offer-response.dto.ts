@@ -21,7 +21,7 @@ export class FavoriteOfferResponse {
   @Expose()
     isPremium!: boolean;
 
-    favorite = true;
+  favorite = true;
 
   @Expose()
     rating!: number;
