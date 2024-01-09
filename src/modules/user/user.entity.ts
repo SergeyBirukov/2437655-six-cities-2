@@ -2,8 +2,6 @@ import { UserType } from '../../types/user-type.enum.js';
 import { User } from '../../types/user.type.js';
 import typegoose, { defaultClasses, getModelForClass } from '@typegoose/typegoose';
 import { createSHA256 } from '../../core/helpers/hash.js';
-import {ConfigInterface} from '../../core/config/config.interface.js';
-import {RestSchema} from '../../core/config/rest.schema.js';
 
 export interface UserEntity extends defaultClasses.Base {}
 const { prop, modelOptions } = typegoose;
@@ -33,8 +31,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     @prop({required: true, type: () => [String]})
     public favorite!: string[];
 
-    constructor(userData: User,
-    private readonly config?: ConfigInterface<RestSchema>){
+    constructor(userData: User){
       super();
 
       this.name = userData.name;
@@ -43,12 +40,17 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
       this.type = userData.type;
     }
 
-    public setPassword(password: string){
-      this.password = createSHA256(password, this.config?.get('SALT') ?? '');
+    public setPassword(password: string, salt?: string) {
+      this.password = createSHA256(password, salt);
     }
 
     public getPassword(){
       return this.password;
+    }
+
+    public verifyPassword(password: string, salt?: string) {
+      const hashPassword = createSHA256(password, salt);
+      return hashPassword === this.password;
     }
 }
 

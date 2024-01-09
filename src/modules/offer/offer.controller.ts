@@ -17,6 +17,7 @@ import {ValidateObjectIdMiddleware} from '../../rest/middleware/validate-objectI
 import {IsDocumentExistsMiddleware} from '../../rest/middleware/is-document-exists.middleware.js';
 import {UpdateOfferRequest} from './dto/update-offer.request.js';
 import {FavoriteOfferResponse} from './dto/favorite-offer-response.dto.js';
+import {PrivateRouteMiddleware} from '../../rest/middleware/private-route.middleware.js';
 
 export type ParamsOffer = { offerId: string; } | ParamsDictionary;
 export type ParamsCity = { city: string; } | ParamsDictionary;
@@ -43,7 +44,10 @@ export default class OfferController extends ControllerBase {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateCommentRequest)]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateCommentRequest),
+      ]
     });
 
     this.addRoute({
@@ -61,6 +65,7 @@ export default class OfferController extends ControllerBase {
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferRequest),
         new IsDocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
@@ -71,7 +76,10 @@ export default class OfferController extends ControllerBase {
       path: '/:offerId',
       method: HttpMethod.Delete,
       handler: this.delete,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+      ]
     });
 
     this.addRoute({
@@ -85,6 +93,7 @@ export default class OfferController extends ControllerBase {
       method: HttpMethod.Post,
       handler: this.addFavorite,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new IsDocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
@@ -95,6 +104,7 @@ export default class OfferController extends ControllerBase {
       method: HttpMethod.Delete,
       handler: this.deleteFavorite,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new IsDocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
@@ -104,6 +114,7 @@ export default class OfferController extends ControllerBase {
       path: '/favorites',
       method: HttpMethod.Get,
       handler: this.getFavorites,
+      middlewares: [new PrivateRouteMiddleware()]
     });
   }
 
@@ -145,32 +156,18 @@ export default class OfferController extends ControllerBase {
     this.ok(res, plainToInstance(OfferResponse, offers, { excludeExtraneousValues: true }));
   }
 
-  public async getFavorites(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, { userId: string; }>,
-    _res: Response,
-  ): Promise<void> {
-    const offers = await this.userService.findFavorites(body.userId);
+  public async getFavorites({ user }: Request, _res: Response): Promise<void> {
+    const offers = await this.userService.findFavorites(user.id);
     this.ok(_res, plainToInstance(FavoriteOfferResponse, offers, { excludeExtraneousValues: true }));
   }
 
-  public async addFavorite({ body }: Request<
-      Record<string, unknown>,
-      Record<string, unknown>,
-      { offerId: string; userId: string; }>,
-  res: Response,
-  ): Promise<void> {
-    await this.userService.addToFavoritesById(body.offerId, body.userId);
+  public async addFavorite({ params, user }: Request<ParamsOffer>, res: Response): Promise<void> {
+    await this.userService.addToFavoritesById(params.offerId, user.id);
     this.noContent(res, { message: 'Offer was added to favorite' });
   }
 
-  public async deleteFavorite(
-    { body }: Request<
-      Record<string, unknown>,
-      Record<string, unknown>,
-      { offerId: string; userId: string; }>,
-    res: Response,
-  ): Promise<void> {
-    await this.userService.removeFromFavoritesById(body.offerId, body.userId);
+  public async deleteFavorite({ params, user }: Request<ParamsOffer>, res: Response): Promise<void> {
+    await this.userService.removeFromFavoritesById(params.offerId, user.id);
     this.noContent(res, { message: 'Offer was removed from favorite' });
   }
 }

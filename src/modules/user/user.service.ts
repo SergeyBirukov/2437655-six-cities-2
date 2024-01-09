@@ -9,6 +9,7 @@ import {OfferEntity} from '../offer/offer.entity.js';
 import {UserType} from '../../types/user-type.enum.js';
 import {ConfigInterface} from '../../core/config/config.interface.js';
 import {RestSchema} from '../../core/config/rest.schema.js';
+import {LoginUserRequest} from './dto/login-user.request.js';
 
 @injectable()
 export class UserService implements UserServiceInterface {
@@ -19,8 +20,8 @@ export class UserService implements UserServiceInterface {
   ){}
 
   public async create(dto: CreateUserRequest): Promise<DocumentType<UserEntity>> {
-    const user = new UserEntity({ ...dto, type: UserType.Regular }, this.config);
-    user.setPassword(dto.password);
+    const user = new UserEntity({ ...dto, type: UserType.Regular });
+    user.setPassword(dto.password, this.config.get('SALT'));
 
     const result = await this.userModel.create(user);
     this.logger.info(`New user created: ${user.email}`);
@@ -60,6 +61,20 @@ export class UserService implements UserServiceInterface {
       return [];
     }
 
-    return this.userModel.find({ _id: { $in: offers.favorite } });
+    return this.userModel.find({ _id: { $in: offers.favorite } }).populate('offerId');
+  }
+
+  public async verifyUser(dto: LoginUserRequest): Promise<DocumentType<UserEntity> | null> {
+    const user = await this.findByEmail(dto.email);
+
+    if (!user) {
+      return null;
+    }
+
+    if (user.verifyPassword(dto.password, this.config.get('SALT'))) {
+      return user;
+    }
+
+    return null;
   }
 }
