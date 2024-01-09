@@ -70,7 +70,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     @prop({ required: true, allowMixed: Severity.ALLOW })
     public coordinates!: Coordinates;
 
-    @prop({required: true, min: [1, 'Min rating is 1'], max: [5, 'Max rating is 5']})
+    @prop({required: false, default: 1, min: [1, 'Min rating is 1'], max: [5, 'Max rating is 5']})
     public rating!: number;
 }
 

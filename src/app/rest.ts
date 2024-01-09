@@ -8,6 +8,7 @@ import { getMongoURI } from '../core/helpers/db.js';
 import express, { Express } from 'express';
 import {ExceptionFilterInterface} from '../rest/exceptions/exception-filter.interface.js';
 import {ControllerBase} from '../rest/contoller/contoller-base.abstract.js';
+import {AuthenticateMiddleware} from '../rest/middleware/authenticate.middleware.js';
 
 @injectable()
 export default class RestApplication {
@@ -28,8 +29,8 @@ export default class RestApplication {
     this.logger.info('Application initialization...');
 
     await this._initDb();
-    await this._initRoutes();
     await this._initMiddlewares();
+    await this._initRoutes();
     await this._initExceptionFilters();
     await this._initServer();
   }
@@ -60,11 +61,13 @@ export default class RestApplication {
 
   private async _initMiddlewares(){
     this.expressApp.use(express.json());
+    const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
+    this.expressApp.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
   }
 
   private async _initRoutes() {
     this.expressApp.use('/offers', this.offerController.router);
-    this.expressApp.use('/users', this.userController.router);
+    this.expressApp.use('/', this.userController.router);
     this.expressApp.use('/upload', express.static(this.config.get('UPLOAD_DIRECTORY')));
   }
 

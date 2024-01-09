@@ -15,6 +15,12 @@ import {ConfigInterface} from '../../core/config/config.interface.js';
 import {RestSchema} from '../../core/config/rest.schema.js';
 import {ValidateObjectIdMiddleware} from '../../rest/middleware/validate-objectId.middleware.js';
 import {UploadFileMiddleware} from '../../rest/middleware/upload-file.js';
+import {PrivateRouteMiddleware} from '../../rest/middleware/private-route.middleware.js';
+import {createJWT} from '../../core/helpers/jwt.js';
+import {LoginUserResponse} from './dto/login-user.response.js';
+import {BLACK_LIST_TOKENS} from '../../rest/middleware/authenticate.middleware.js';
+
+type LoginUserRequestType = Request<Record<string, unknown>, Record<string, unknown>, LoginUserRequest>;
 
 @injectable()
 export default class UserController extends ControllerBase {
@@ -42,6 +48,13 @@ export default class UserController extends ControllerBase {
         new UploadFileMiddleware(this.config.get('UPLOAD_DIRECTORY'), 'avatar'),
       ],
     });
+    this.addRoute({path: '/login', method: HttpMethod.Get, handler: this.checkAuthenticate});
+    this.addRoute({
+      path: '/logout',
+      method: HttpMethod.Post,
+      handler: this.logout,
+      middlewares: [new PrivateRouteMiddleware()],
+    });
   }
 
   public async register(
@@ -59,21 +72,34 @@ export default class UserController extends ControllerBase {
     this.created(res, plainToInstance(CreateUserRequest, result, { excludeExtraneousValues: true }));
   }
 
-  public async login(
-    { body }: Request<Record<string, unknown>, Record<string, unknown>, LoginUserRequest>,
-    _res: Response,
-  ): Promise<void> {
-    const existsUser = await this.userService.findByEmail(body.email);
+  public async login({ body }: LoginUserRequestType, res: Response): Promise<void> {
+    const user = await this.userService.verifyUser(body);
 
-    if (!existsUser) {
-      throw new HttpError(StatusCodes.UNAUTHORIZED, `User with email ${body.email} not found.`, 'UserController');
+    if (!user) {
+      throw new HttpError(StatusCodes.UNAUTHORIZED, 'Unauthorized', 'UserController');
     }
 
-    throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController');
+    const token = await createJWT(this.config.get('JWT_SECRET'), {email: user.email, id: user.id,});
+    this.ok(
+      res,
+      plainToInstance(
+        LoginUserResponse,
+        {email: user.email, token},
+        { excludeExtraneousValues: true },
+      ),
+    );
   }
 
-  public async logout(_req: Request, _res: Response): Promise<void> {
-    throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController');
+  public async logout(req: Request, res: Response): Promise<void> {
+    const [, token] = String(req.headers.authorization?.split(' '));
+
+    if (!req.user) {
+      throw new HttpError(StatusCodes.UNAUTHORIZED, 'Unauthorized', 'UserController');
+    }
+
+    BLACK_LIST_TOKENS.add(token);
+
+    this.noContent(res, { token });
   }
 
   public async getFavorite(
@@ -104,5 +130,19 @@ export default class UserController extends ControllerBase {
     this.created(res, {
       filepath: req.file?.path,
     });
+  }
+
+  public async checkAuthenticate({ user }: Request, res: Response) {
+    this.logger.info(`Check authenticate for user: ${user?.email}`);
+    if (!user) {
+      throw new HttpError(StatusCodes.UNAUTHORIZED, 'Unauthorized', 'UserController');
+    }
+    const foundedUser = await this.userService.findByEmail(user.email);
+
+    if (!foundedUser) {
+      throw new HttpError(StatusCodes.UNAUTHORIZED, 'Unauthorized', 'UserController');
+    }
+
+    this.ok(res, plainToInstance(LoginUserResponse, foundedUser, { excludeExtraneousValues: true }));
   }
 }

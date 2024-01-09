@@ -3,7 +3,10 @@ import {UserType} from '../../../types/user-type.enum.js';
 
 export class UserResponse {
   @Expose()
-  public username!: string;
+  public id!: string;
+
+  @Expose()
+  public name!: string;
 
   @Expose()
   public email!: string;
