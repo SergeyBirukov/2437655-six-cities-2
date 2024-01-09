@@ -14,7 +14,7 @@ const { prop, modelOptions } = typegoose;
 
 export class UserEntity extends defaultClasses.TimeStamps implements User {
     @prop({ required: true, minlength: 1, maxlength: 15 })
-    public name: string;
+  public name: string;
 
     @prop({ unique: true, required: true, match: [/^.+@.+$/, 'Email is incorrect'] })
     public email: string;
